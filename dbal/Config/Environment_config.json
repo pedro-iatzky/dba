@@ -1,0 +1,27 @@
+{
+  "default": "development",
+
+  "environments": {
+
+    "development": {
+      "DB_HOST": "127.0.0.1",
+      "DB_NAME": "your_db_name",
+      "User": "user_dev",
+      "Pass": "password_dev"
+    },
+
+    "testing": {
+      "DB_HOST": "testing_server.com",
+      "DB_NAME": "your_db_name",
+      "User": "user_test",
+      "Pass": "password_test"
+    },
+
+    "production": {
+      "DB_HOST": "production_server.com",
+      "DB_NAME": "your_db_name",
+      "User": "user_prod",
+      "Pass": "password_prod"
+    }
+  }
+}
