@@ -305,7 +305,7 @@ class BulkOps(object):
         """
         This function allows for inserting many values in bulk.
         This function was created because the sqlalchemy bulk inserts were not
-        faster enough
+        fast enough
         :param cursor: <psycopg2.cursor> or something like that
         :param table: <str> table name
         :param columns: <tuple>. columns to insert

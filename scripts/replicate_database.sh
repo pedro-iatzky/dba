@@ -5,17 +5,17 @@
 # If you want to create a copy  into the same server do not use this
 # script for that purpose!!
 # You just have to execute (directly in SQL)
-# "CREATE DATABASE your_db_copy TEMPLATE your_db_to_be_copied",
+# "CREATE DATABASE db_copy_name TEMPLATE db_to_be_copied",
 
 # replicate_database.sh --source_host <your source host> --destination_host
 # <your destination host> --source_db <the database you want to copy>
 
 # We assume the "postgres" database always exists. We need an existent database for
-# testing the connections parameters
+# testing the connection parameters
 
 DESTINATION_EXISTENT_DB=postgres
 # We can set an avoided destination host. For example for assuring not
-# to write a production server
+# to write to a production server
 AVOIDED_DESTINATION_HOST="your_production_host"
 TEMP_FOLDER="/tmp"
 
@@ -233,7 +233,7 @@ create_roles_if_they_do_not_exist() {
 
 
 set_the_roles_permission() {
-    # Set the roles for the developer and the viewer role
+    # Set the roles for the developer and viewer roles
     COPY_DB_COMMAND="psql -d $DB_COPY -h $DESTINATION_HOST -p $DESTINATION_PORT -U $destination_user"
 
     check_role_exists "$COPY_DB_COMMAND" $DEVELOPER_ROLE $destination_password
@@ -254,18 +254,19 @@ set_the_roles_permission() {
     $COPY_DB_COMMAND -c "GRANT SELECT ON ALL TABLES IN SCHEMA public TO \"$VIEWER_ROLE\";"
     $COPY_DB_COMMAND -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT"\
      "SELECT ON TABLES TO \"$VIEWER_ROLE\";"
-    }
+}
 
 main() {
-    # First, we need to assure that all the needed tools are installed. If they're not
-    # install them then
+    # First, we need to assure that all the needed tools are installed. If not,
+    # install them
     set_up_tools
-    # First, all the server credentials will be prompted, and the connection with
-    #  each one will be tested
+    # Before starting the dump and the copy, all the server credentials
+    # will be prompted, and the connection with each one will be tested
     request_connection_credentials
     dump_source_db
     create_copy_db
-#
+
+#   Uncomment below if you want to create the default roles for the destination db
 #    create_roles_if_they_do_not_exist
 #    set_the_roles_permission
 }
